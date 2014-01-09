@@ -1,13 +1,20 @@
 <head>
-  <title>bitstampc</title>
+  <title>Bitstamp Control Center</title>
 </head>
 
 <body>
-  {{> hello}}
+  {{> title}}
+  {{> balance}}
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name="title">
+  <h1>Bitstamp Control Center</h1>
+</template>
+
+<template name="balance">
+  <h2>Balance</h2>
+  <div>Available USD: {{r.usd_available}}</div>
+  <div>Reserved USD: {{r.usd_reserved}}</div>
+  <div>Reserved BTC: {{r.btc_reserved}}</div>
+  <div>Available BTC: {{r.btc_available}}</div>
 </template>

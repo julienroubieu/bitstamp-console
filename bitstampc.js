@@ -1,15 +1,13 @@
 if (Meteor.isClient) {
-  Template.hello.greeting = function () {
-    return "Welcome to bitstampc.";
-  };
 
-  Template.hello.events({
-    'click input' : function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
-    }
-  });
+  Template.balance.r = function () {
+    return {
+      'usd_available': 12.0,
+      'usd_reserved': 5.0,
+      'btc_available': 97.0,
+      'btc_reserved': 0,
+    };
+  };
 }
 
 if (Meteor.isServer) {
