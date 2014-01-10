@@ -24,14 +24,18 @@ if (Meteor.isServer) {
   var publicBitstamp = new Bitstamp();
 
   Meteor.startup(function () {
-    Meteor.call("ticker");
+    Meteor.setInterval(function() {
+      Meteor.call("ticker");
+    }, 5000);
   });
 
   Meteor.methods({
     ticker: function() {
       publicBitstamp.ticker(Meteor.bindEnvironment(function(err, ticker) {
-        console.log("Got new ticker: "+ticker.last);
-        Tickers.insert(ticker);
+        var lastTicker = Tickers.findOne({}, {sort: {timestamp: -1}});
+        if (lastTicker.timestamp != ticker.timestamp) {
+          Tickers.insert(ticker);
+        }
       }));
     }
   });
