@@ -1,3 +1,6 @@
+
+Tickers = new Meteor.Collection("tickers");
+
 if (Meteor.isClient) {
 
   Template.balance.r = function () {
@@ -8,10 +11,29 @@ if (Meteor.isClient) {
       'btc_reserved': 0,
     };
   };
+
+  Template.ticker.r = function() {
+    var lastTicker = Tickers.findOne();
+    return lastTicker;
+  };
 }
 
 if (Meteor.isServer) {
+
+  var Bitstamp = Meteor.require('bitstamp');
+  var publicBitstamp = new Bitstamp();
+
   Meteor.startup(function () {
-    // code to run on server at startup
+    Meteor.call("ticker");
   });
+
+  Meteor.methods({
+    ticker: function() {
+      publicBitstamp.ticker(Meteor.bindEnvironment(function(err, ticker) {
+        console.log("Got new ticker: "+ticker.last);
+        Tickers.insert(ticker);
+      }));
+    }
+  });
+
 }

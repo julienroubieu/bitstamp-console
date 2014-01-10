@@ -5,10 +5,17 @@
 <body>
   {{> title}}
   {{> balance}}
+  {{> ticker}}
 </body>
 
 <template name="title">
   <h1>Bitstamp Control Center</h1>
+</template>
+
+<template name="ticker">
+  <h2>Ticker</h2>
+  <div>Updated: {{r.timestamp}}</div>
+  <div>Last: {{r.last}}</div>
 </template>
 
 <template name="balance">
