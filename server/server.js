@@ -52,7 +52,7 @@ Meteor.methods({
     privateBitstamp.buy(amount, price, Meteor.bindEnvironment(function(err, order) {
       if (err) throw err;
       if (order.error) {
-        console.log(order.error.__all__);
+        console.log(order.error);
       }
       else {
         console.log("Buy order created for $" + (amount * price));
@@ -65,7 +65,7 @@ Meteor.methods({
     privateBitstamp.sell(amount, price, Meteor.bindEnvironment(function(err, order) {
       if (err) throw err;
       if (order.error) {
-        console.log(order.error.__all__);
+        console.log(order.error);
         return;
       }
       else {

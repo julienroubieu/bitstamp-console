@@ -1,4 +1,22 @@
 
+
+var computeBuyAmount = function(price) {
+  var balance = Session.get("balance");
+  var availableWithoutFee = precise_floor(balance.usd_available / (1 + (balance.fee / 100)),2);
+  var amount = availableWithoutFee / price;
+  // round to 8 decimals:
+  return precise_floor(amount,8);
+};
+
+var computeSellAmount = function(price) {
+  var balance = Session.get("balance");
+  return balance.btc_available;
+};
+
+var precise_floor = function (num,decimals){
+  return Math.floor(num*Math.pow(10,decimals))/Math.pow(10,decimals);
+};
+
 Template.balance.r = function () {
   var lastBalance = Balances.findOne({}, {sort: {"timestamp": -1}});
   if (lastBalance) {
@@ -51,7 +69,7 @@ Template.buy.events({
       var price = $('#buy-price').val().trim();
       if (price == "") price = $('#buy-best').text();
       console.log('Buying at '+price);
-      Meteor.call("buy", 0.01,  price);
+      Meteor.call("buy", computeBuyAmount(price),  price);
     }
 });
 
@@ -86,7 +104,7 @@ Template.sell.events({
       var price = $('#sell-price').val().trim();
       if (price == "") price = $('#sell-best').text();
       console.log('Selling at '+price);
-      Meteor.call("sell", 0.01,  price);
+      Meteor.call("sell", computeSellAmount(price),  price);
     }
 });
 
