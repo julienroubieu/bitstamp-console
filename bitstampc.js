@@ -12,8 +12,8 @@ if (Meteor.isClient) {
     };
   };
 
-  Template.ticker.r = function() {
-    var lastTicker = Tickers.findOne();
+  Template.ticker.ticker = function() {
+    var lastTicker = Tickers.findOne({}, {sort: {timestamp: -1}});
     return lastTicker;
   };
 }
