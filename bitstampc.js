@@ -14,6 +14,14 @@ if (Meteor.isClient) {
 
   Template.ticker.ticker = function() {
     var lastTicker = Tickers.findOne({}, {sort: {timestamp: -1}});
+    if (lastTicker) {
+      console.log(typeof(lastTicker));
+      var d = new Date(1000*parseInt(lastTicker.timestamp));
+      lastTicker.date = d.toLocaleDateString();
+      lastTicker.time = d.toLocaleTimeString();
+    }
+    //var tst = EJSON.parse(lastTicker).timestamp;
+    //
     return lastTicker;
   };
 }
