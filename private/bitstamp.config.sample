@@ -1,0 +1,8 @@
+/*
+ * Rename this file to bitstamp.config and fill in your credentials
+ */
+{
+  'key': 'your_key',
+  'secret': 'your_secret',
+  'client_id': 999999 // your Bitstamp user ID
+}
