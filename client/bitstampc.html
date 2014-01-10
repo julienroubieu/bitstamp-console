@@ -7,6 +7,7 @@
   {{> balance}}
   {{> ticker}}
   {{> buy}}
+  {{> sell}}
   {{> open_orders}}
   {{> user_transactions}}
 </body>
@@ -17,14 +18,27 @@
 
 <template name="buy">
   <h2>Buy</h2>
-  <p>Available: {{available}}</p>
+  <p>Available: {{available}} USD</p>
   <div id="buy-box">
     <button id="buy-clear">Clear</button>
     <button id="buy-dec">-</button>
     <button id="buy-inc">+</button>
     <input type="text" id="buy-price" placeholder="Price" />
-    or <span id="buy-last">{{last}}</span>
+    or <span id="buy-best">{{best}}</span>
     <button id="buy-button">Buy all</button>
+  </div>
+</template> 
+
+<template name="sell">
+  <h2>Sell</h2>
+  <p>Available: {{available}} BTC</p>
+  <div id="sell-box">
+    <button id="sell-clear">Clear</button>
+    <button id="sell-dec">-</button>
+    <button id="sell-inc">+</button>
+    <input type="text" id="sell-price" placeholder="Price" />
+    or <span id="sell-best">{{best}}</span>
+    <button id="sell-button">Sell all</button>
   </div>
 </template> 
 
