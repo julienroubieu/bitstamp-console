@@ -6,6 +6,7 @@
   {{> title}}
   {{> balance}}
   {{> ticker}}
+  {{> user_transactions}}
 </body>
 
 <template name="title">
@@ -25,4 +26,24 @@
   <div>Reserved USD: {{r.usd_reserved}}</div>
   <div>Reserved BTC: {{r.btc_reserved}}</div>
   <div>Available BTC: {{r.btc_available}}</div>
+</template>
+
+<template name="user_transactions">
+  <h2>Transactions</h2>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Type</th>
+      <th>USD</th>
+      <th>BTC</th>
+    </tr>
+  {{#each transactions}}
+    <tr>
+      <td>{{datetime}}</td>
+      <td>{{type}}</td>
+      <td>{{usd}}</td>
+      <td>{{btc}}</td>
+    </tr>
+  {{/each}}
+</table>
 </template>

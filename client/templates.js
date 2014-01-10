@@ -18,3 +18,7 @@ Template.ticker.ticker = function() {
   }
   return lastTicker;
 };
+
+Template.user_transactions.transactions = function() {
+  return Transactions.find({}, {sort: {id: -1}});
+};
