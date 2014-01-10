@@ -11,16 +11,17 @@ if (Meteor.isServer) {
     }, 30*1000);
     Meteor.setInterval(function() {
       Meteor.call("balance");
-    }, 30*1000);
+    }, 59*1000);
     Meteor.setInterval(function() {
       Meteor.call("open_orders");
-    }, 30*1000);
+    }, 27*1000);
     Meteor.call("user_transactions");
   });
 
   Meteor.methods({
     ticker: function() {
       publicBitstamp.ticker(Meteor.bindEnvironment(function(err, ticker) {
+        if (err) throw err;
         var lastTicker = Tickers.findOne({}, {sort: {timestamp: -1}});
         if (lastTicker.timestamp != ticker.timestamp) {
           Tickers.insert(ticker);
@@ -30,6 +31,7 @@ if (Meteor.isServer) {
     balance: function() {
       privateBitstamp.balance(Meteor.bindEnvironment(function(err, balance) {
         if (err) throw err;
+        balance.timestamp = Math.floor(Date.now() / 1000);
         Balances.insert(balance);
       }));
     },
@@ -48,6 +50,7 @@ if (Meteor.isServer) {
         if (success) {
           console.log("Order was cancelled");
           Orders.remove({"id":order_id});
+          Meteor.call("balance");
         }
         else {
           console.log("Bistamp did NOT cancel the order");

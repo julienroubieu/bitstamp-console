@@ -6,6 +6,7 @@
   {{> title}}
   {{> balance}}
   {{> ticker}}
+  {{> buy}}
   {{> open_orders}}
   {{> user_transactions}}
 </body>
@@ -14,11 +15,25 @@
   <h1>Bitstamp Control Center</h1>
 </template>
 
+<template name="buy">
+  <h2>Buy</h2>
+  <p>Available: {{available}}</p>
+  <div id="buy-box">
+    <button id="buy-clear">Clear</button>
+    <button id="buy-dec">-</button>
+    <button id="buy-inc">+</button>
+    <input type="text" id="buy-price" placeholder="Price" />
+    or <span id="buy-last">{{last}}</span>
+    <button id="buy-button">Buy all</button>
+  </div>
+</template> 
+
 <template name="ticker">
   <h2>Ticker</h2>
   <div>Updated: {{ticker.date}} {{ticker.time}}</div>
   <div>Last: {{ticker.last}}</div>
   <div>Bid: {{ticker.bid}}</div>
+  <div>Ask: {{ticker.ask}}</div>
 </template>
 
 <template name="balance">

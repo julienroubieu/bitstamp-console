@@ -6,7 +6,12 @@ Transactions = new Meteor.Collection("transactions");
 Orders = new Meteor.Collection("orders");
 
 if (Meteor.isClient) {
+	Session.setDefault("balance", {
 
+	});
+	Session.setDefault("ticker", {
+		
+	});
 }
 
 if (Meteor.isServer) {
