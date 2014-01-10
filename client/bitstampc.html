@@ -6,6 +6,7 @@
   {{> title}}
   {{> balance}}
   {{> ticker}}
+  {{> open_orders}}
   {{> user_transactions}}
 </body>
 
@@ -36,6 +37,7 @@
       <th>Type</th>
       <th>USD</th>
       <th>BTC</th>
+      <th>Fee</th>
     </tr>
   {{#each transactions}}
     <tr>
@@ -43,6 +45,29 @@
       <td>{{type}}</td>
       <td>{{usd}}</td>
       <td>{{btc}}</td>
+      <td>{{fee}}</td>
+    </tr>
+  {{/each}}
+</table>
+</template>
+
+<template name="open_orders">
+  <h2>Open Orders</h2>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Type</th>
+      <th>Price</th>
+      <th>Amount</th>
+      <th></th>
+    </tr>
+  {{#each orders}}
+    <tr>
+      <td>{{datetime}}</td>
+      <td>{{type}}</td>
+      <td>{{price}}</td>
+      <td>{{amount}}</td>
+      <td><button class="cancel">Cancel</button></td>
     </tr>
   {{/each}}
 </table>

@@ -22,3 +22,12 @@ Template.ticker.ticker = function() {
 Template.user_transactions.transactions = function() {
   return Transactions.find({}, {sort: {id: -1}});
 };
+
+Template.open_orders.orders = function() {
+  return Orders.find({}, {sort: {id: -1}});
+};
+Template.open_orders.events({
+    'click .cancel': function () {
+      Meteor.call("cancel_order", this.id);
+    }
+});

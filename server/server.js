@@ -12,6 +12,9 @@ if (Meteor.isServer) {
     Meteor.setInterval(function() {
       Meteor.call("balance");
     }, 30*1000);
+    Meteor.setInterval(function() {
+      Meteor.call("open_orders");
+    }, 30*1000);
     Meteor.call("user_transactions");
   });
 
@@ -28,6 +31,27 @@ if (Meteor.isServer) {
       privateBitstamp.balance(Meteor.bindEnvironment(function(err, balance) {
         if (err) throw err;
         Balances.insert(balance);
+      }));
+    },
+    open_orders: function() {
+      privateBitstamp.open_orders(Meteor.bindEnvironment(function(err, orders) {
+        if (err) throw err;
+        Orders.remove({});
+        _.each(orders, function(o){
+          Orders.insert(o);
+        });
+      }));
+    },
+    cancel_order: function(order_id) {
+      privateBitstamp.cancel_order(order_id, Meteor.bindEnvironment(function(err, success) {
+        if (err) throw err;
+        if (success) {
+          console.log("Order was cancelled");
+          Orders.remove({});
+        }
+        else {
+          console.log("Bistamp did NOT cancel the order");
+        }
       }));
     },
     user_transactions: function() {
