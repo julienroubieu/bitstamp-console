@@ -47,7 +47,7 @@ if (Meteor.isServer) {
         if (err) throw err;
         if (success) {
           console.log("Order was cancelled");
-          Orders.remove({});
+          Orders.remove({"id":order_id});
         }
         else {
           console.log("Bistamp did NOT cancel the order");
