@@ -3,6 +3,19 @@ var publicBitstamp = new Bitstamp();
 var conf = EJSON.parse(Assets.getText('bitstamp.config'));
 var privateBitstamp = new Bitstamp(conf.key, conf.secret, conf.client_id);
 
+var ordersCheckHandle = null;
+var ordersCheckCurrentPeriod = 0;
+var checkOrdersEvery = function(seconds) {
+  if (ordersCheckCurrentPeriod == seconds) return;
+  if (ordersCheckHandle != null) {
+    Meteor.clearInterval(ordersCheckHandle);
+  }
+  ordersCheckHandle = Meteor.setInterval(function() {
+    Meteor.call("open_orders");
+  }, seconds * 1000);
+  ordersCheckCurrentPeriod = seconds;
+};
+
 Meteor.startup(function () {
   Meteor.setInterval(function() {
     Meteor.call("ticker");
@@ -10,10 +23,8 @@ Meteor.startup(function () {
   Meteor.setInterval(function() {
     Meteor.call("balance");
   }, 59*1000);
-  Meteor.setInterval(function() {
-    Meteor.call("open_orders");
-  }, 27*1000);
   Meteor.call("user_transactions");
+  checkOrdersEvery(120);
 });
 
 Meteor.methods({
@@ -65,12 +76,19 @@ Meteor.methods({
     }));
   },
   open_orders: function() {
+    console.log("Checking open orders");
     privateBitstamp.open_orders(Meteor.bindEnvironment(function(err, orders) {
       if (err) throw err;
       Orders.remove({});
-      _.each(orders, function(o){
-        Orders.insert(o);
-      });
+      if (orders.length > 0) {
+        _.each(orders, function(o){
+          Orders.insert(o);
+        });
+        checkOrdersEvery(2);
+      }
+      else {
+        checkOrdersEvery(120);
+      }
     }));
   },
   cancel_order: function(order_id) {
