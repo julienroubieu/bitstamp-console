@@ -17,7 +17,10 @@ var precise_floor = function (num,decimals){
   return Math.floor(num*Math.pow(10,decimals))/Math.pow(10,decimals);
 };
 
-Template.balance.r = function () {
+Template.balance.valueClass = function (value) {
+  return value > 0 ? '' : 'text-muted';
+};
+Template.balance.b = function () {
   var lastBalance = Balances.findOne({}, {sort: {"timestamp": -1}});
   if (lastBalance) {
     var d = new Date(1000*parseInt(lastBalance.timestamp));

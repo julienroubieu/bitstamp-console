@@ -36,7 +36,7 @@
 <template name="buy">
   <div class="panel {{panel_type}}">
     <div class="panel-heading">
-      <div class="h2 panel-title">Buy <small class="pull-right" title="Available: {{available}} USD">{{available}} USD</small></div>
+      <div class="h3 panel-title">Buy <small class="pull-right" title="Available: {{available}} USD">{{available}} USD</small></div>
     </div>
     <div class="panel-body">
       <form id="buy-box" class="form-inline" role="form">
@@ -55,7 +55,7 @@
 <template name="sell">
   <div class="panel {{panel_type}}">
     <div class="panel-heading">
-      <div class="h2 panel-title">Sell <small class="pull-right" title="Available: {{available}} BTC">{{available}} BTC</small></div>
+      <div class="h3 panel-title">Sell <small class="pull-right" title="Available: {{available}} BTC">{{available}} BTC</small></div>
     </div>
     <div class="panel-body">
       <form id="sell-box" class="form-inline" role="form">
@@ -74,7 +74,7 @@
 <template name="ticker">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="h2 panel-title">Ticker <small title="Last transaction" class="pull-right">{{ticker.last}}</small></div>
+      <div class="h3 panel-title">Ticker <small title="Last transaction" class="pull-right">{{ticker.last}}</small></div>
     </div>
     <div class="panel-body">
       <div title="Last update on {{ticker.date}} at {{ticker.time}}"><span class="glyphicon glyphicon-time"></span> {{ticker.time}}</div>
@@ -87,14 +87,14 @@
 <template name="balance">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h2 class="panel-title">Balance</h2>
+      <div class="h3 panel-title">Balance</div>
     </div>
     <div class="panel-body">
-      <div title="Available USD"><span class="glyphicon glyphicon-ok"></span> USD {{r.usd_available}}</div>
-      <div title="Reserved USD in open orders"><span class="glyphicon glyphicon-lock"></span> USD {{r.usd_reserved}}</div>
-      <div title="Reserved BTC in open orders"><span class="glyphicon glyphicon-lock"></span> BTC {{r.btc_reserved}}</div>
-      <div title="Available BTC"><span class="glyphicon glyphicon-ok"></span> BTC {{r.btc_available}}</div>
-      <div>Fee: {{r.fee}}%</div>
+      <div title="Available USD"><span class="glyphicon glyphicon-ok"></span> <span class="{{valueClass b.usd_available}}">USD {{b.usd_available}}</span></div>
+      <div title="Reserved USD in open orders"><span class="glyphicon glyphicon-lock"></span> <span class="{{valueClass b.usd_reserved}}">USD {{b.usd_reserved}}</span></div>
+      <div title="Reserved BTC in open orders"><span class="glyphicon glyphicon-lock"></span> <span class="{{valueClass b.btc_reserved}}">BTC {{b.btc_reserved}}</span></div>
+      <div title="Available BTC"><span class="glyphicon glyphicon-ok"></span> <span class="{{valueClass b.btc_available}}">BTC {{b.btc_available}}</span></div>
+      <div>Fee: {{b.fee}}%</div>
     </div>
   </div>
 </template>
@@ -102,7 +102,7 @@
 <template name="user_transactions">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h2 class="panel-title">Transactions</h2>
+      <div class="h3 panel-title">Transactions</div>
     </div>
     <div class="panel-body">
       <table class="table table-striped table-condensed table-hover">
@@ -130,7 +130,7 @@
 <template name="open_orders">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h2 class="panel-title">Open Orders</h2>
+      <div class="h3 panel-title">Open Orders</div>
     </div>
     <div class="panel-body">
       {{#if hasOrders}}
