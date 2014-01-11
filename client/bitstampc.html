@@ -45,8 +45,8 @@
         <button id="buy-inc" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
         <label class="sr-only" for="buy-price">Price</label>
         <input type="number" step="any" id="buy-price" placeholder="Price" />
-        or <button id="buy-best" type="button" class="btn btn-default btn-xs">{{best}}</button>
-        <button id="buy-button" class="btn btn-warning btn-sm">Buy all</button>
+        or <button id="buy-best" type="button" class="btn btn-default btn-xs" title="Lowest Ask price. Click to copy to price box.">{{best}}</button>
+        <button id="buy-button" class="btn btn-warning btn-sm" title="Buy Bitcoins with all my USD at the specified price, or at the lowest Ask price if no price is specified">Buy all</button>
       </form>
     </div>
   </div>
@@ -64,8 +64,8 @@
         <button id="sell-inc" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
         <label class="sr-only" for="sell-price">Price</label>
         <input type="number" step="any" id="sell-price" placeholder="Price" />
-        or <button id="sell-best" type="button" class="btn btn-default btn-xs">{{best}}</button>
-        <button id="sell-button" class="btn btn-warning btn-sm">Sell all</button>
+        or <button id="sell-best" type="button" class="btn btn-default btn-xs" title="Highest Bid price. Click to copy to price box.">{{best}}</button>
+        <button id="sell-button" class="btn btn-warning btn-sm" title="Sell all Bitcoins at the specified price, or at the highest Bid price if no price is specified">Sell all</button>
       </form>
     </div>
   </div>
