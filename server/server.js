@@ -84,7 +84,7 @@ Meteor.methods({
         _.each(orders, function(o){
           Orders.insert(o);
         });
-        checkOrdersEvery(2);
+        checkOrdersEvery(10);
       }
       else {
         checkOrdersEvery(120);

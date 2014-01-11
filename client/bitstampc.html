@@ -1,5 +1,8 @@
 <head>
   <title>Bitstamp Control Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -17,88 +20,126 @@
 </template>
 
 <template name="buy">
-  <h2>Buy</h2>
-  <p>Available: {{available}} USD</p>
-  <div id="buy-box">
-    <button id="buy-clear">Clear</button>
-    <button id="buy-dec">-</button>
-    <button id="buy-inc">+</button>
-    <input type="text" id="buy-price" placeholder="Price" />
-    or <span id="buy-best">{{best}}</span>
-    <button id="buy-button">Buy all</button>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Buy</h2>
+    </div>
+    <div class="panel-body">
+      <p>Available: {{available}} USD</p>
+      <form id="buy-box" class="form-inline" role="form">
+        <button id="buy-clear">Clear</button>
+        <button id="buy-dec">-</button>
+        <button id="buy-inc">+</button>
+        <label class="sr-only" for="buy-price">Price</label>
+        <input type="number" step="any" id="buy-price" placeholder="Price" />
+        or <span id="buy-best">{{best}}</span>
+        <button id="buy-button" class="btn btn-warning btn-sm">Buy all</button>
+      </form>
+    </div>
   </div>
 </template> 
 
 <template name="sell">
-  <h2>Sell</h2>
-  <p>Available: {{available}} BTC</p>
-  <div id="sell-box">
-    <button id="sell-clear">Clear</button>
-    <button id="sell-dec">-</button>
-    <button id="sell-inc">+</button>
-    <input type="text" id="sell-price" placeholder="Price" />
-    or <span id="sell-best">{{best}}</span>
-    <button id="sell-button">Sell all</button>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Sell</h2>
+    </div>
+    <div class="panel-body">
+      <p>Available: {{available}} BTC</p>
+      <form id="sell-box" class="form-inline" role="form">
+        <button id="sell-clear">Clear</button>
+        <button id="sell-dec">-</button>
+        <button id="sell-inc">+</button>
+        <label class="sr-only" for="sell-price">Price</label>
+        <input type="number" step="any" id="sell-price" placeholder="Price" />
+        or <span id="sell-best">{{best}}</span>
+        <button id="sell-button" class="btn btn-warning btn-sm">Sell all</button>
+      </form>
+    </div>
   </div>
 </template> 
 
 <template name="ticker">
-  <h2>Ticker</h2>
-  <div>Updated: {{ticker.date}} {{ticker.time}}</div>
-  <div>Last: {{ticker.last}}</div>
-  <div>Bid: {{ticker.bid}}</div>
-  <div>Ask: {{ticker.ask}}</div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Ticker</h2>
+    </div>
+    <div class="panel-body">
+      <div>Updated: {{ticker.date}} {{ticker.time}}</div>
+      <div>Last: {{ticker.last}}</div>
+      <div>Bid: {{ticker.bid}}</div>
+      <div>Ask: {{ticker.ask}}</div>
+    </div>
+  </div>
 </template>
 
 <template name="balance">
-  <h2>Balance</h2>
-  <div>Available USD: {{r.usd_available}}</div>
-  <div>Reserved USD: {{r.usd_reserved}}</div>
-  <div>Reserved BTC: {{r.btc_reserved}}</div>
-  <div>Available BTC: {{r.btc_available}}</div>
-  <div>Fee: {{r.fee}}%</div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Balance</h2>
+    </div>
+    <div class="panel-body">
+      <div>Available USD: {{r.usd_available}}</div>
+      <div>Reserved USD: {{r.usd_reserved}}</div>
+      <div>Reserved BTC: {{r.btc_reserved}}</div>
+      <div>Available BTC: {{r.btc_available}}</div>
+      <div>Fee: {{r.fee}}%</div>
+    </div>
+  </div>
 </template>
 
 <template name="user_transactions">
-  <h2>Transactions</h2>
-  <table>
-    <tr>
-      <th>Date</th>
-      <th>Type</th>
-      <th>USD</th>
-      <th>BTC</th>
-      <th>Fee</th>
-    </tr>
-  {{#each transactions}}
-    <tr>
-      <td>{{datetime}}</td>
-      <td>{{type}}</td>
-      <td>{{usd}}</td>
-      <td>{{btc}}</td>
-      <td>{{fee}}</td>
-    </tr>
-  {{/each}}
-</table>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Transactions</h2>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped table-condensed table-hover">
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>USD</th>
+          <th>BTC</th>
+          <th>Fee</th>
+        </tr>
+      {{#each transactions}}
+        <tr>
+          <td>{{datetime}}</td>
+          <td>{{type}}</td>
+          <td>{{usd}}</td>
+          <td>{{btc}}</td>
+          <td>{{fee}}</td>
+        </tr>
+      {{/each}}
+    </table>
+    </div>
+  </div>
 </template>
 
 <template name="open_orders">
-  <h2>Open Orders</h2>
-  <table>
-    <tr>
-      <th>Date</th>
-      <th>Type</th>
-      <th>Price</th>
-      <th>Amount</th>
-      <th></th>
-    </tr>
-  {{#each orders}}
-    <tr>
-      <td>{{datetime}}</td>
-      <td>{{type}}</td>
-      <td>{{price}}</td>
-      <td>{{amount}}</td>
-      <td><button class="cancel">Cancel</button></td>
-    </tr>
-  {{/each}}
-</table>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Open Orders</h2>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped table-condensed table-hover">
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Price</th>
+          <th>Amount</th>
+          <th></th>
+        </tr>
+      {{#each orders}}
+        <tr>
+          <td>{{datetime}}</td>
+          <td>{{type}}</td>
+          <td>{{price}}</td>
+          <td>{{amount}}</td>
+          <td><button class="cancel btn btn-default btn-sm">Cancel</button></td>
+        </tr>
+      {{/each}}
+    </table>
+    </div>
+  </div>
 </template>
