@@ -8,8 +8,8 @@ Approximative steps:
 
 * Install Node.js
 * Install Meteor and meteorite
-* sudo -H npm install -g meteor-npm
-* git clone
-* copy and fill config in private/bitstamp.config
-* cd <your_app> && meteor run
+* Install Meteor-npm module: `sudo -H npm install -g meteor-npm`
+* `git clone` this project
+* Read and configure in `private/bitstamp.config.sample`
+* Run `meteor run`
 

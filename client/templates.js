@@ -139,6 +139,9 @@ Template.open_orders.hasOrders = function() {
 Template.open_orders.orderTypeIs = function (type) {
   return (this.type == type);
 };
+Template.open_orders.panel_type = function () {
+  return Orders.find({}).count() > 0 ? 'panel-success' : 'panel-default';
+};
 Template.open_orders.events({
     'click .cancel': function () {
       Meteor.call("cancel_order", this.id);
