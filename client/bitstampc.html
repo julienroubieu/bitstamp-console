@@ -6,33 +6,46 @@
 </head>
 
 <body>
-  {{> title}}
-  {{> balance}}
-  {{> ticker}}
-  {{> buy}}
-  {{> sell}}
-  {{> open_orders}}
-  {{> user_transactions}}
+  {{> bitcoinwisdom}}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        {{> balance}}
+        {{> ticker}}
+      </div>
+      <div class="col-md-5">
+        {{> buy}}
+        {{> sell}}
+      </div>
+      <div class="col-md-5">
+        {{> open_orders}}
+        {{> user_transactions}}
+      </div>
+    </div>
+  </div>
 </body>
 
 <template name="title">
   <h1>Bitstamp Control Center</h1>
 </template>
 
+<template name="bitcoinwisdom">
+  <iframe width="100%" height="450px" src="http://bitcoinwisdom.com/markets/bitstamp/btcusd"></iframe>
+</template>
+
 <template name="buy">
-  <div class="panel panel-default">
+  <div class="panel {{panel_type}}">
     <div class="panel-heading">
-      <h2 class="panel-title">Buy</h2>
+      <div class="h2 panel-title">Buy <small class="pull-right" title="Available: {{available}} USD">{{available}} USD</small></div>
     </div>
     <div class="panel-body">
-      <p>Available: {{available}} USD</p>
       <form id="buy-box" class="form-inline" role="form">
-        <button id="buy-clear">Clear</button>
-        <button id="buy-dec">-</button>
-        <button id="buy-inc">+</button>
+        <button id="buy-clear" type="button" class="btn btn-default btn-xs">Clear</button>
+        <button id="buy-dec" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
+        <button id="buy-inc" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
         <label class="sr-only" for="buy-price">Price</label>
         <input type="number" step="any" id="buy-price" placeholder="Price" />
-        or <span id="buy-best">{{best}}</span>
+        or <button id="buy-best" type="button" class="btn btn-default btn-xs">{{best}}</button>
         <button id="buy-button" class="btn btn-warning btn-sm">Buy all</button>
       </form>
     </div>
@@ -40,19 +53,18 @@
 </template> 
 
 <template name="sell">
-  <div class="panel panel-default">
+  <div class="panel {{panel_type}}">
     <div class="panel-heading">
-      <h2 class="panel-title">Sell</h2>
+      <div class="h2 panel-title">Sell <small class="pull-right" title="Available: {{available}} BTC">{{available}} BTC</small></div>
     </div>
     <div class="panel-body">
-      <p>Available: {{available}} BTC</p>
       <form id="sell-box" class="form-inline" role="form">
-        <button id="sell-clear">Clear</button>
-        <button id="sell-dec">-</button>
-        <button id="sell-inc">+</button>
+        <button id="sell-clear" type="button" class="btn btn-default btn-xs">Clear</button>
+        <button id="sell-dec" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
+        <button id="sell-inc" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
         <label class="sr-only" for="sell-price">Price</label>
         <input type="number" step="any" id="sell-price" placeholder="Price" />
-        or <span id="sell-best">{{best}}</span>
+        or <button id="sell-best" type="button" class="btn btn-default btn-xs">{{best}}</button>
         <button id="sell-button" class="btn btn-warning btn-sm">Sell all</button>
       </form>
     </div>
@@ -62,11 +74,10 @@
 <template name="ticker">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h2 class="panel-title">Ticker</h2>
+      <div class="h2 panel-title">Ticker <small title="Last transaction" class="pull-right">{{ticker.last}}</small></div>
     </div>
     <div class="panel-body">
-      <div>Updated: {{ticker.date}} {{ticker.time}}</div>
-      <div>Last: {{ticker.last}}</div>
+      <div title="Last update on {{ticker.date}} at {{ticker.time}}"><span class="glyphicon glyphicon-time"></span> {{ticker.time}}</div>
       <div>Bid: {{ticker.bid}}</div>
       <div>Ask: {{ticker.ask}}</div>
     </div>
@@ -79,10 +90,10 @@
       <h2 class="panel-title">Balance</h2>
     </div>
     <div class="panel-body">
-      <div>Available USD: {{r.usd_available}}</div>
-      <div>Reserved USD: {{r.usd_reserved}}</div>
-      <div>Reserved BTC: {{r.btc_reserved}}</div>
-      <div>Available BTC: {{r.btc_available}}</div>
+      <div title="Available USD"><span class="glyphicon glyphicon-ok"></span> USD {{r.usd_available}}</div>
+      <div title="Reserved USD in open orders"><span class="glyphicon glyphicon-lock"></span> USD {{r.usd_reserved}}</div>
+      <div title="Reserved BTC in open orders"><span class="glyphicon glyphicon-lock"></span> BTC {{r.btc_reserved}}</div>
+      <div title="Available BTC"><span class="glyphicon glyphicon-ok"></span> BTC {{r.btc_available}}</div>
       <div>Fee: {{r.fee}}%</div>
     </div>
   </div>
@@ -105,7 +116,7 @@
       {{#each transactions}}
         <tr>
           <td>{{datetime}}</td>
-          <td>{{type}}</td>
+          <td>{{typeText}}</td>
           <td>{{usd}}</td>
           <td>{{btc}}</td>
           <td>{{fee}}</td>
@@ -122,24 +133,35 @@
       <h2 class="panel-title">Open Orders</h2>
     </div>
     <div class="panel-body">
-      <table class="table table-striped table-condensed table-hover">
-        <tr>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Price</th>
-          <th>Amount</th>
-          <th></th>
-        </tr>
-      {{#each orders}}
-        <tr>
-          <td>{{datetime}}</td>
-          <td>{{type}}</td>
-          <td>{{price}}</td>
-          <td>{{amount}}</td>
-          <td><button class="cancel btn btn-default btn-sm">Cancel</button></td>
-        </tr>
-      {{/each}}
-    </table>
+      {{#if hasOrders}}
+        <table class="table table-striped table-condensed table-hover">
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Price</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        {{#each orders}}
+          <tr>
+            <td>{{datetime}}</td>
+            <td>
+              {{#if orderTypeIs 0}}
+                <span class="label label-info">buy</span>
+              {{/if}}
+              {{#if orderTypeIs 1}}
+                <span class="label label-success">sell</span>
+              {{/if}}
+            </td>
+            <td><strong>{{price}}</strong></td>
+            <td>{{amount}}</td>
+            <td><button class="cancel btn btn-warning btn-xs">Cancel</button></td>
+          </tr>
+        {{/each}}
+        </table>
+      {{else}}
+        No open orders
+      {{/if}}
     </div>
   </div>
 </template>

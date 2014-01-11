@@ -47,8 +47,12 @@ Template.buy.best = function () {
   var ticker = Session.get("ticker");
   return ticker ? ticker.ask : '-';
 };
+Template.buy.panel_type = function () {
+  var balance = Session.get("balance");
+  return balance && balance.usd_available > 0 ? 'panel-success' : 'panel-default';
+};
 Template.buy.events({
-    'dblclick #buy-best': function () {
+    'click #buy-best': function () {
       var price = $('#buy-best').text();
       $('#buy-price').val(price);
     },
@@ -82,8 +86,12 @@ Template.sell.best = function () {
   var ticker = Session.get("ticker");
   return ticker ? ticker.bid : '-';
 };
+Template.sell.panel_type = function () {
+  var balance = Session.get("balance");
+  return balance && balance.btc_available > 0 ? 'panel-success' : 'panel-default';
+};
 Template.sell.events({
-    'dblclick #sell-best': function () {
+    'click #sell-best': function () {
       var price = $('#sell-best').text();
       $('#sell-price').val(price);
     },
@@ -111,9 +119,22 @@ Template.sell.events({
 Template.user_transactions.transactions = function() {
   return Transactions.find({}, {sort: {"id": -1}});
 };
+Template.user_transactions.typeText = function() {
+  switch(this.type) {
+    case 0: return "deposit";
+    case 1: return "withdrawal";
+    case 2: return "trade";
+  }
+};
 
 Template.open_orders.orders = function() {
   return Orders.find({}, {sort: {"id": -1}});
+};
+Template.open_orders.hasOrders = function() {
+  return Orders.find({}).count() > 0;
+};
+Template.open_orders.orderTypeIs = function (type) {
+  return (this.type == type);
 };
 Template.open_orders.events({
     'click .cancel': function () {
