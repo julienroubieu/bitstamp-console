@@ -3,6 +3,35 @@ var publicBitstamp = new Bitstamp();
 var conf = EJSON.parse(Assets.getText('bitstamp.config'));
 var privateBitstamp = new Bitstamp(conf.key, conf.secret, conf.client_id);
 
+/* =========================== */
+/* Debugging function. Can be removed */
+var wrappedFind = Meteor.SmartCollection.prototype.find;
+Meteor.SmartCollection.prototype.find = function () {
+  var cursor = wrappedFind.apply(this, arguments);
+  var collectionName = this._name;
+ 
+  cursor.observeChanges({
+    added: function (id, fields) {
+      console.log(collectionName, 'added', id, fields);
+    },
+ 
+    changed: function (id, fields) {
+      console.log(collectionName, 'changed', id, fields);
+    },
+ 
+    movedBefore: function (id, before) {
+      console.log(collectionName, 'movedBefore', id, before);
+    },
+ 
+    removed: function (id) {
+      console.log(collectionName, 'removed', id);
+    }
+  });
+ 
+  return cursor;
+};
+/* =========================== */
+
 var ordersCheckHandle = null;
 var ordersCheckCurrentPeriod = 0;
 var checkOrdersEvery = function(seconds) {
@@ -17,14 +46,11 @@ var checkOrdersEvery = function(seconds) {
 };
 
 Meteor.startup(function () {
-  Meteor.setInterval(function() {
-    Meteor.call("ticker");
-  }, 30*1000);
-  Meteor.setInterval(function() {
-    Meteor.call("balance");
-  }, 59*1000);
-  Meteor.call("user_transactions");
-  checkOrdersEvery(120);
+  // Meteor.setInterval(function() {
+  //   Meteor.call("ticker");
+  // }, 30*1000);
+  //Meteor.call("user_transactions");
+  Meteor.call("balance");
 });
 
 Meteor.methods({
@@ -40,8 +66,11 @@ Meteor.methods({
   balance: function() {
     privateBitstamp.balance(Meteor.bindEnvironment(function(err, balance) {
       if (err) throw err;
-      balance.timestamp = Math.floor(Date.now() / 1000);
-      Balances.insert(balance);
+      var lastBalance = Balances.findOne({}, {sort: {"timestamp": -1}});
+      if (lastBalance == null || lastBalance.usd_available != balance.usd_available || lastBalance.btc_available != balance.btc_available) {
+        balance.timestamp = Math.floor(Date.now() / 1000);
+        Balances.insert(balance);
+      }
     }));
   },
   buy: function(amount, price) {
@@ -57,6 +86,7 @@ Meteor.methods({
       else {
         console.log("Buy order created for $" + (amount * price));
         Orders.insert(order);
+        Meteor.call("open_orders");
         Meteor.call("balance");
       }
     }));
@@ -71,6 +101,7 @@ Meteor.methods({
       else {
         console.log("Sell order created for $" + (amount * price));
         Orders.insert(order);
+        Meteor.call("open_orders");
         Meteor.call("balance");
       }
     }));
@@ -84,10 +115,6 @@ Meteor.methods({
         _.each(orders, function(o){
           Orders.insert(o);
         });
-        checkOrdersEvery(10);
-      }
-      else {
-        checkOrdersEvery(120);
       }
     }));
   },
@@ -105,13 +132,10 @@ Meteor.methods({
     }));
   },
   user_transactions: function() {
-    privateBitstamp.user_transactions(100, Meteor.bindEnvironment(function(err, transactions) {
+    privateBitstamp.user_transactions(10, Meteor.bindEnvironment(function(err, transactions) {
       if (err) throw err;
       _.each(transactions, function(t){
-        var count = Transactions.find({'id': t.id}).count();
-        if (count === 0) {
-          Transactions.insert(t);
-        }
+        Transactions.upsert({"id": t.id}, t);
       });
     }));
   },
