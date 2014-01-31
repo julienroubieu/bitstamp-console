@@ -77,6 +77,7 @@ Template.buy.events({
       if (price == "") price = $('#buy-best').text();
       console.log('Buying at '+price);
       Meteor.call("buy", computeBuyAmount(price),  price);
+      return false;
     }
 });
 
@@ -116,6 +117,7 @@ Template.sell.events({
       if (price == "") price = $('#sell-best').text();
       console.log('Selling at '+price);
       Meteor.call("sell", computeSellAmount(price),  price);
+      return false;
     }
 });
 
@@ -145,5 +147,10 @@ Template.open_orders.panel_type = function () {
 Template.open_orders.events({
     'click .cancel': function () {
       Meteor.call("cancel_order", this.id);
+      return false;
+    }
+    'click #open-orders-refresh': function () {
+      Meteor.call("open_orders");
+      return false;
     }
 });
