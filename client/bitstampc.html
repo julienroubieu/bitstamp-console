@@ -4,6 +4,19 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <link rel="icon" sizes="16x16 32x32" href="/favicon.ico">
+  <script>
+  function logRenders () {
+    _.each(Template, function (template, name) {
+      var oldRender = template.rendered;
+      var counter = 0;
+ 
+      template.rendered = function () {
+        console.log(name, "render count: ", ++counter);
+        oldRender && oldRender.apply(this, arguments);
+      };
+    });
+  }
+  </script>
 </head>
 
 <body>
@@ -131,7 +144,7 @@
 <template name="open_orders">
   <div class="panel {{panel_type}}">
     <div class="panel-heading">
-      <div class="h3 panel-title">Open Orders</div>
+      <div class="h3 panel-title">Open Orders <button id="open-orders-refresh" type="button" class="btn btn-default btn-xs pull-right">Refresh</button></div>
     </div>
     <div class="panel-body">
       {{#if hasOrders}}
