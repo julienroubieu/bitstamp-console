@@ -6,12 +6,8 @@ Transactions = new Meteor.SmartCollection("transactions");
 Orders = new Meteor.SmartCollection("orders");
 
 if (Meteor.isClient) {
-	Session.setDefault("balance", {
-
-	});
-	Session.setDefault("ticker", {
-		
-	});
+	Session.setDefault("balance", {});
+	Session.setDefault("ticker", {});
 }
 
 if (Meteor.isServer) {

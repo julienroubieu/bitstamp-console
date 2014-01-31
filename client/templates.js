@@ -41,6 +41,12 @@ Template.ticker.ticker = function() {
     return lastTicker;
   }
 };
+Template.ticker.events({
+    'click #ticker-refresh': function () {
+      Meteor.call("ticker");
+      return false;
+    }
+});
 
 Template.buy.available = function () {
   var balance = Session.get("balance");
@@ -148,7 +154,7 @@ Template.open_orders.events({
     'click .cancel': function () {
       Meteor.call("cancel_order", this.id);
       return false;
-    }
+    },
     'click #open-orders-refresh': function () {
       Meteor.call("open_orders");
       return false;

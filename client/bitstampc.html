@@ -88,10 +88,11 @@
 <template name="ticker">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="h3 panel-title">Ticker <small title="Last transaction" class="pull-right">{{ticker.last}}</small></div>
+      <div class="h3 panel-title">Ticker <button id="ticker-refresh" type="button" class="btn btn-default btn-xs pull-right" title="Refresh"><span class="glyphicon glyphicon-refresh"></span></button></div>
     </div>
     <div class="panel-body">
       <div title="Last update on {{ticker.date}} at {{ticker.time}}"><span class="glyphicon glyphicon-time"></span> {{ticker.time}}</div>
+      <div>Last: {{ticker.last}}</div>
       <div>Bid: {{ticker.bid}}</div>
       <div>Ask: {{ticker.ask}}</div>
     </div>
@@ -144,7 +145,7 @@
 <template name="open_orders">
   <div class="panel {{panel_type}}">
     <div class="panel-heading">
-      <div class="h3 panel-title">Open Orders <button id="open-orders-refresh" type="button" class="btn btn-default btn-xs pull-right">Refresh</button></div>
+      <div class="h3 panel-title">Open Orders <button id="open-orders-refresh" type="button" class="btn btn-default btn-xs pull-right" title="You might want to refresh if you also manage orders from another source">Refresh</button></div>
     </div>
     <div class="panel-body">
       {{#if hasOrders}}
