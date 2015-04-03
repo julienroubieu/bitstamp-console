@@ -1,2 +1,3 @@
 *.sublime-*
 private/*.config
+npm-debug.log
