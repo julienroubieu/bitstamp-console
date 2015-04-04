@@ -3,6 +3,8 @@
 A [Meteor](https://www.meteor.com/) [Bitstamp](https://www.bitstamp.net) console, running in your browser.
 It allows you to monitor the market through BitcoinWisdom and easily place limit orders.
 
+![alt Bistamp Console](https://raw.githubusercontent.com/julienroubieu/bitstamp-console/master/doc/bitstamp-console.png)
+
 ## Install
 
 * Install [Meteor](https://www.meteor.com/)
