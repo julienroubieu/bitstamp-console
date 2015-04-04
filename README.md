@@ -1,13 +1,21 @@
 # Bitstamp Control Center
 
-An all in one Bitstamp client, running in your browser. Based on Meteor.
+A [Meteor](https://www.meteor.com/) [Bitstamp](https://www.bitstamp.net) console, running in your browser.
+It allows you to monitor the market through BitcoinWisdom and easily place limit orders.
 
 ## Install
 
-Approximative steps:
-
 * Install [Meteor](https://www.meteor.com/)
-* `git clone` this project
-* Read and configure in `private/bitstamp.config.sample`
+* Create and activate an API Key from your Bitstamp account (Account > Security > API Access). Make sure to check the following permissions:
+  * Account Balance
+  * User transactions
+  * Open orders
+  * Cancel order
+  * Buy limit orders
+  * Sell limit orders
+* Copy `private/bitstamp.config.sample` to `private/bitstamp.config` and configure with your API key.
+
+## Run
+
 * Run `meteor run`
 
