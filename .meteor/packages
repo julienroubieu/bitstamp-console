@@ -5,6 +5,5 @@
 
 standard-app-packages
 autopublish
-preserve-inputs
 npm
 arunoda:smart-collections@0.4.0
