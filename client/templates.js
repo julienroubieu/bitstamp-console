@@ -18,7 +18,7 @@ var precise_floor = function (num,decimals){
 };
 
 Template.balance.helpers({
-  valueClass: function (value) { return value > 0 ? '' : 'text-muted'; },
+  valueClass: function (value) { return value > 0 ? "" : "text-muted"; },
 
   b: function () {
     var lastBalance = Balances.findOne({}, {sort: {"timestamp": -1}});

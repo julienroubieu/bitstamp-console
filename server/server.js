@@ -1,36 +1,7 @@
-var Bitstamp = Meteor.require('bitstamp');
+var Bitstamp = Meteor.require("bitstamp");
 var publicBitstamp = new Bitstamp();
-var conf = EJSON.parse(Assets.getText('bitstamp.config'));
+var conf = EJSON.parse(Assets.getText("bitstamp.config"));
 var privateBitstamp = new Bitstamp(conf.key, conf.secret, conf.client_id);
-
-/* =========================== */
-/* Debugging function. Can be removed */
-var wrappedFind = Meteor.SmartCollection.prototype.find;
-Meteor.SmartCollection.prototype.find = function () {
-  var cursor = wrappedFind.apply(this, arguments);
-  var collectionName = this._name;
- 
-  cursor.observeChanges({
-    added: function (id, fields) {
-      console.log(collectionName, 'added', id, fields);
-    },
- 
-    changed: function (id, fields) {
-      console.log(collectionName, 'changed', id, fields);
-    },
- 
-    movedBefore: function (id, before) {
-      console.log(collectionName, 'movedBefore', id, before);
-    },
- 
-    removed: function (id) {
-      console.log(collectionName, 'removed', id);
-    }
-  });
- 
-  return cursor;
-};
-/* =========================== */
 
 var ordersCheckHandle = null;
 var ordersCheckCurrentPeriod = 0;
@@ -46,10 +17,10 @@ var checkOrdersEvery = function(seconds) {
 };
 
 Meteor.startup(function () {
-  // Meteor.setInterval(function() {
-  //   Meteor.call("ticker");
-  // }, 30*1000);
-  //Meteor.call("user_transactions");
+  Meteor.setInterval(function() {
+    Meteor.call("ticker");
+  }, 30*1000);
+  Meteor.call("user_transactions");
   Meteor.call("balance");
 });
 
@@ -58,7 +29,7 @@ Meteor.methods({
     publicBitstamp.ticker(Meteor.bindEnvironment(function(err, ticker) {
       if (err) throw err;
       var lastTicker = Tickers.findOne({}, {sort: {timestamp: -1}});
-      if (lastTicker.timestamp != ticker.timestamp) {
+      if (!lastTicker || lastTicker.timestamp != ticker.timestamp) {
         Tickers.insert(ticker);
       }
     }));
@@ -67,7 +38,7 @@ Meteor.methods({
     privateBitstamp.balance(Meteor.bindEnvironment(function(err, balance) {
       if (err) throw err;
       var lastBalance = Balances.findOne({}, {sort: {"timestamp": -1}});
-      if (lastBalance == null || lastBalance.usd_available != balance.usd_available || lastBalance.btc_available != balance.btc_available) {
+      if (!lastBalance || lastBalance.usd_available != balance.usd_available || lastBalance.btc_available != balance.btc_available) {
         balance.timestamp = Math.floor(Date.now() / 1000);
         Balances.insert(balance);
       }
@@ -127,7 +98,7 @@ Meteor.methods({
         Meteor.call("balance");
       }
       else {
-        console.log("Bistamp did NOT cancel the order");
+        console.log("Bitstamp did NOT cancel the order");
       }
     }));
   },
