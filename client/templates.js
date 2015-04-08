@@ -142,9 +142,12 @@ Template.user_transactions.helpers({
     switch(this.type) {
       case 0: return "deposit";
       case 1: return "withdrawal";
-      case 2: return "trade";
+      case 2: return (this.usd < 0) ? "buy" : "sell";
     }
-  }
+  },
+  rate: function() {
+    return -1 * Math.round( 100 * this.usd / this.btc) / 100;
+  },
 });
 
 Template.open_orders.helpers({

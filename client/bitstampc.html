@@ -125,14 +125,16 @@
         <tr>
           <th>Date</th>
           <th>Type</th>
+          <th>Rate</th>
           <th>USD</th>
           <th>BTC</th>
           <th>Fee</th>
         </tr>
       {{#each transactions}}
-        <tr>
+        <tr class="{{typeText}}">
           <td>{{datetime}}</td>
           <td>{{typeText}}</td>
+          <td>{{rate}}</td>
           <td>{{usd}}</td>
           <td>{{btc}}</td>
           <td>{{fee}}</td>
