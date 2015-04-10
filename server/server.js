@@ -17,11 +17,14 @@ var checkOrdersEvery = function(seconds) {
 };
 
 Meteor.startup(function () {
+  Tickers.remove({});
+  Tickers._ensureIndex({ "timestamp": -1});
+  Balances._ensureIndex({ "timestamp": -1});
+  Meteor.call("balance");
+  Meteor.call("user_transactions");
   Meteor.setInterval(function() {
     Meteor.call("ticker");
   }, 30*1000);
-  Meteor.call("user_transactions");
-  Meteor.call("balance");
 });
 
 Meteor.methods({
