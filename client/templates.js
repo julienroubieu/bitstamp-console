@@ -31,6 +31,12 @@ Template.balance.helpers({
     }
   }
 });
+Template.balance.events({
+    'click #balance-refresh': function () {
+      Meteor.call("balance");
+      return false;
+    }
+});
 
 Template.ticker.helpers({
   ticker: function() {
